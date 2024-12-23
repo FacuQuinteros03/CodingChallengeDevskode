@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FoodFormData } from '../../models/Food';
-import { FoodFormProps } from '../../models/Food';
+import { FoodFormData, StarTypes } from '../../models/Product';
+import { FoodFormProps } from '../../models/Product';
 
 export default function CreateFoodForm({
   onSubmit,
@@ -8,13 +8,13 @@ export default function CreateFoodForm({
   submitLabel,
 }: FoodFormProps) {
   const [formData, setFormData] = useState<FoodFormData>({
-    id: '',
+    id: 0, // Default ID
     name: '',
-    description: '',
+    ingredients: '',
     price: 0,
-    availability: true,
-    rating: 0,
-    image: '',
+    stock: true,
+    stars: StarTypes.One,
+    image_url: '',
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,89 +29,98 @@ export default function CreateFoodForm({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (onSubmit) onSubmit(formData); // Se pasa el formData a la función onSubmit
+    setIsSubmitting(true);
+    try {
+      await onSubmit(formData);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-md">
-        <div className="p-6">
-          <h2 className="text-2xl font-semibold text-purple-500 mb-6">
+      <div className="bg-white rounded-lg w-full max-w-3xl">
+        <div className="p-10">
+          <h2 className="text-2xl font-semibold text-button mb-6">
             Crear Comida
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name of food"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Ingredients"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="Price"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-                min="0"
-                step="0.01"
-              />
-            </div>
-            <div>
-              <select
-                name="availability"
-                value={formData.availability ? 'true' : 'false'}
-                onChange={handleChange}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-              >
-                <option value="true">In Stock</option>
-                <option value="false">Out of Stock</option>
-              </select>
-            </div>
-            <div>
-              <select
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-              >
-                {[0, 1, 2, 3, 4, 5].map((num) => (
-                  <option key={num} value={num}>
-                    {num} Stars
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <input
-                type="url"
-                name="image"
-                value={formData.image}
-                onChange={handleChange}
-                placeholder="Image URL"
-                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                required
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-5">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name of food"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                  required
+                />
+              </div>
+              <div className="p-5">
+                <input
+                  type="text"
+                  name="ingredients"
+                  value={formData.ingredients}
+                  onChange={handleChange}
+                  placeholder="Ingredients"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                  required
+                />
+              </div>
+              <div className="p-5">
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Price"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div className="p-5">
+                <select
+                  name="stock"
+                  value={formData.stock ? 'true' : 'false'}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                >
+                  <option value="true">In Stock</option>
+                  <option value="false">Out of Stock</option>
+                </select>
+              </div>
+              <div className="p-5">
+                <select
+                  name="stars"
+                  value={formData.stars}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                >
+                  {[0, 1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num} Stars
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="p-5">
+                <input
+                  type="url"
+                  name="image_url"
+                  value={formData.image_url}
+                  onChange={handleChange}
+                  placeholder="Image URL"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-button"
+                  required
+                />
+              </div>
             </div>
             <div className="flex justify-end gap-2 mt-6">
               {onClose && (
@@ -126,7 +135,7 @@ export default function CreateFoodForm({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 disabled:opacity-50"
+                className="px-4 py-2 bg-button text-white rounded hover:bg-purple-600 disabled:opacity-50 min-w-[200px]"
               >
                 {isSubmitting ? 'Submitting...' : submitLabel}
               </button>

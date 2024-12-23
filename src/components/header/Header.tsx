@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Header() {
   return (
-    <header className="border-b px-6 py-4 bg-navbar">
+    <header className="border border-solid border-black px-6 py-4 bg-navbar">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Coding Challenge</h1>
         <nav className="flex gap-4">
