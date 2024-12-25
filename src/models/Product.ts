@@ -1,9 +1,9 @@
 export enum StarTypes {
-  'One' = 1,
-  'Two' = 2,
-  'Three' = 3,
-  'Four' = 4,
-  'Five' = 5,
+  'One' = '1',
+  'Two' = '2',
+  'Three' = '3',
+  'Four' = '4',
+  'Five' = '5',
 }
 
 // Adaptar la interfaz Food al modelo product
@@ -21,20 +21,18 @@ export interface Food {
 export type FoodFormData = {
   id: number;
   name: string;
-  ingredients: string; // Cambiar description a ingredients
-  price: number; // Cambiar price a string (email)
-  stock: boolean; // Cambiar availability a stock
-  stars: StarTypes; // Cambiar rating a stars (enum de estrellas)
-  image_url: string; // Cambiar image a image_url
-  // ID como número entero
+  ingredients: string;
+  price: number;
+  stock: boolean;
+  stars: StarTypes;
+  image_url: string;
 };
 
 // Propiedades para el componente de formulario de comida
 export interface FoodFormProps {
   onSubmit: (data: FoodFormData) => Promise<void>;
-  onUpdate?: (foodId: number, updatedFood: FoodFormData) => Promise<void>; // Cambiar el tipo de id a number
+  onUpdate?: (foodId: number, updatedFood: FoodFormData) => Promise<void>;
   initialData?: FoodFormData;
-  name: string;
   submitLabel: string;
   onClose?: () => void;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import FoodCard from './FoodCard';
 
-const FoodList = ({ foods, onDelete }) => {
+const FoodList = ({ foods, onDelete, onUpdate }) => {
   return (
     <div>
       {foods.length === 0 ? (
@@ -12,7 +12,7 @@ const FoodList = ({ foods, onDelete }) => {
             <li key={food.id}>
               <FoodCard
                 food={food}
-                // onUpdate={() => onUpdate(food)}
+                onUpdate={(updatedFood) => onUpdate(updatedFood)}
                 onDelete={() => onDelete(food.id)}
               />
             </li>

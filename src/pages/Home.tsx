@@ -57,8 +57,8 @@ function Home() {
     try {
       const newFood = await foodService.create(food);
 
-      // Convierte el ID a un número y actualiza el objeto newFood
-      newFood.id = Number(newFood.id);
+      // // Convierte el ID a un número y actualiza el objeto newFood
+      // newFood.id = Number(newFood.id);
 
       // Ahora puedes agregarlo a los estados sin problemas
       setFoods((prevFoods) => [...prevFoods, newFood]);
@@ -128,14 +128,13 @@ function Home() {
           <FoodList
             foods={filteredFoods}
             onDelete={handleDelete}
-            // onUpdate={onUpdate}
+            onUpdate={onUpdate}
           />
           {filteredFoods.length === 0 && (
             <p className="text-gray-500 mt-4">No se encontraron resultados.</p>
           )}
           {showCreateForm && (
             <CreateFoodForm
-              name={selectedFood ? 'Update Food' : 'Create Food'}
               initialData={
                 selectedFood ? mapToFoodFormData(selectedFood) : undefined
               }

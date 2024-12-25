@@ -34,17 +34,17 @@ export default function FilterBar({
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-4 mb-8">
+    <div className="flex justify-center items-center">
+      <div className="flex flex-wrap gap-4 mb-8 ">
         <select
-          className="bg-gray-100 border rounded px-3 py-2 w-48"
+          className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-48"
           onChange={(e) =>
             handleFilterChange(
               'stars',
-              e.target.value ? Number(e.target.value) : null
+              e.target.value || null // Pasar la cadena o `null` si no se selecciona nada
             )
           }
-          value={filters.stars || ''}
+          value={filters.stars || ''} // Asegurarse de que el valor coincida con la cadena
         >
           <option value="">Select Stars</option>
           <option value="1">1 Star</option>
@@ -53,11 +53,12 @@ export default function FilterBar({
           <option value="4">4 Stars</option>
           <option value="5">5 Stars</option>
         </select>
+
         <div className="flex items-center gap-2">
           <input
             type="number"
             placeholder="Min"
-            className="bg-gray-100 border rounded px-3 py-2 w-24"
+            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-24"
             onChange={(e) =>
               handleFilterChange(
                 'minPrice',
@@ -70,7 +71,7 @@ export default function FilterBar({
           <input
             type="number"
             placeholder="Max"
-            className="bg-gray-100 border rounded px-3 py-2 w-24"
+            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-24"
             onChange={(e) =>
               handleFilterChange(
                 'maxPrice',
@@ -80,15 +81,16 @@ export default function FilterBar({
             value={filters.maxPrice || ''}
           />
         </div>
-        <div className="flex-1 relative">
+
+        <div className="flex items-center justify-center mx-2 w-64">
           <input
             type="search"
             placeholder="Search"
             value={filters.name}
             onChange={(e) => handleFilterChange('name', e.target.value)}
-            className="bg-gray-100 border rounded px-3 py-2 pl-10 w-full"
+            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 pl-10 w-full"
           />
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             fill="none"
@@ -101,11 +103,12 @@ export default function FilterBar({
               strokeWidth={2}
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 0 0114 0z"
             />
-          </svg>
+          </svg> */}
         </div>
+
         <button
           onClick={showCreateFoodModal}
-          className="bg-violet-500 hover:bg-violet-600 text-white rounded p-2"
+          className="bg-violet-500 hover:bg-violet-600 text-white rounded-full p-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

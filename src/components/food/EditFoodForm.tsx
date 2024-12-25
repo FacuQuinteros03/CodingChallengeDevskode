@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FoodFormData, StarTypes } from '../../models/Product';
 import { FoodFormProps } from '../../models/Product';
+import { foodService } from '../../services/productService';
 
 export default function EditFoodForm({
   onSubmit,
@@ -8,7 +9,17 @@ export default function EditFoodForm({
   submitLabel,
   initialData,
 }: FoodFormProps) {
-  const [formData, setFormData] = useState<FoodFormData>();
+  const [formData, setFormData] = useState<FoodFormData>(
+    initialData || {
+      id: 0,
+      name: '',
+      ingredients: '',
+      price: 0,
+      stock: true,
+      stars: StarTypes.One,
+      image_url: '',
+    }
+  );
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -16,22 +27,7 @@ export default function EditFoodForm({
     if (initialData) {
       setFormData(initialData);
     }
-    console.log('initialData en el form', initialData);
   }, [initialData]);
-
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  // ) => {
-  //   const { name, value, type } = e.target;
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: type === 'number' ? Number(value) : value,
-  //     stock: name === 'stock' ? value === 'true' : prev.stock,
-  //   }));
-
-  //   console.log('EDITANDO..');
-  //   console.log(formData);
-  // };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,20 +36,19 @@ export default function EditFoodForm({
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'number' ? Number(value) : value,
+      stock: name === 'stock' ? value === 'true' : prev.stock,
     }));
-
-    console.log('EDITANDO..');
-    console.log(formData);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Datos enviados:', formData);
     setIsSubmitting(true);
     try {
-      await onSubmit(formData);
-      // OnClose()
+      const updatedFood = await foodService.update(formData.id, formData);
+      onSubmit(updatedFood);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error updating food:', error);
     } finally {
       setIsSubmitting(false);
     }
