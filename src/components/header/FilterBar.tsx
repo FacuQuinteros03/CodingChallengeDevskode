@@ -1,5 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
 import { StarTypes } from '../../models/Product';
+import { FaFilter, FaPlus } from 'react-icons/fa';
+import { FilterContent } from './FilterContent';
+import FilterModal from './FilterModal';
 
 interface FilterBarProps {
   onFilterChange: (filters: FilterOptions) => void;
@@ -24,6 +29,8 @@ export default function FilterBar({
     stars: null,
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const handleFilterChange = (
     key: keyof FilterOptions,
     value: string | number | null
@@ -34,98 +41,52 @@ export default function FilterBar({
   };
 
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-wrap gap-4 mb-8 ">
-        <select
-          className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-48"
-          onChange={(e) =>
-            handleFilterChange(
-              'stars',
-              e.target.value || null // Pasar la cadena o `null` si no se selecciona nada
-            )
-          }
-          value={filters.stars || ''} // Asegurarse de que el valor coincida con la cadena
-        >
-          <option value="">Select Stars</option>
-          <option value="1">1 Star</option>
-          <option value="2">2 Stars</option>
-          <option value="3">3 Stars</option>
-          <option value="4">4 Stars</option>
-          <option value="5">5 Stars</option>
-        </select>
-
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            placeholder="Min"
-            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-24"
-            onChange={(e) =>
-              handleFilterChange(
-                'minPrice',
-                e.target.value ? Number(e.target.value) : null
-              )
-            }
-            value={filters.minPrice || ''}
-          />
-          <span>-</span>
-          <input
-            type="number"
-            placeholder="Max"
-            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-24"
-            onChange={(e) =>
-              handleFilterChange(
-                'maxPrice',
-                e.target.value ? Number(e.target.value) : null
-              )
-            }
-            value={filters.maxPrice || ''}
-          />
-        </div>
-
-        <div className="flex items-center justify-center mx-2 w-64">
-          <input
-            type="search"
-            placeholder="Search"
-            value={filters.name}
-            onChange={(e) => handleFilterChange('name', e.target.value)}
-            className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 pl-10 w-full"
-          />
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 0 0114 0z"
-            />
-          </svg> */}
-        </div>
-
+    <>
+      {/* Desktop View - Unchanged */}
+      <div className="hidden md:flex justify-center gap-8 mb-8 w-full">
+        <FilterContent
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+        />
         <button
           onClick={showCreateFoodModal}
-          className="bg-violet-500 hover:bg-violet-600 text-white rounded-full p-3"
+          className="bg-button hover:bg-violet-600 text-white rounded-full p-3"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
+          <FaPlus />
         </button>
       </div>
-    </div>
+
+      {/* Mobile View */}
+      <div className="md:flex,flex-col,w-full">
+        <div className="md:hidden flex gap-2 w-full px-4 mb-4">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex-1 bg-button text-icon font-semibold rounded px-4 py-2 flex items-center justify-center"
+          >
+            <FaFilter className="text-icon" />
+            FILTER
+          </button>
+        </div>
+
+        <div className="md:hidden flex gap-2 w-full px-4 mb-8">
+          <button
+            className="flex-1 bg-stockTrue text-icon font-semibold rounded px-4 py-2 flex items-center justify-center"
+            onClick={showCreateFoodModal}
+          >
+            <FaPlus className="text-icon" />
+            Add Food
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Filter Modal */}
+      {isModalOpen && (
+        <FilterModal
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          setIsModalOpen={setIsModalOpen}
+        />
+      )}
+    </>
   );
 }

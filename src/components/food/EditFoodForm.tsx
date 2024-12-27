@@ -56,9 +56,11 @@ export default function EditFoodForm({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl">
+      <div className="bg-white rounded-lg w-full max-w-[1000px]">
         <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold text-button">Editar Comida</h2>
+          <h2 className="text-2xl font-semibold text-button p-4">
+            Update Product
+          </h2>
           {onClose && (
             <button
               onClick={onClose}
@@ -68,84 +70,88 @@ export default function EditFoodForm({
             </button>
           )}
         </div>
-
         <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Name of food"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-                required
-              />
-              <input
-                type="text"
-                name="ingredients"
-                value={formData.ingredients}
-                onChange={handleChange}
-                placeholder="Ingredients"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-                required
-              />
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="Price"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-                required
-                min="0"
-                step="0.01"
-              />
-              <select
-                name="stock"
-                value={formData.stock ? 'true' : 'false'}
-                onChange={handleChange}
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-              >
-                <option value="true">In Stock</option>
-                <option value="false">Out of Stock</option>
-              </select>
-              <select
-                name="stars"
-                value={formData.stars}
-                onChange={handleChange}
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-              >
-                {[0, 1, 2, 3, 4, 5].map((num) => (
-                  <option key={num} value={num}>
-                    {num} Stars
-                  </option>
-                ))}
-              </select>
-              <input
-                type="url"
-                name="image_url"
-                value={formData.image_url}
-                onChange={handleChange}
-                placeholder="Image URL"
-                className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-button"
-                required
-              />
+              <div className="p-5">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Name of food"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                  required
+                />
+              </div>
+              <div className="p-5">
+                <input
+                  type="text"
+                  name="ingredients"
+                  value={formData.ingredients}
+                  onChange={handleChange}
+                  placeholder="Ingredients"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                  required
+                />
+              </div>
+              <div className="p-5">
+                <input
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleChange}
+                  placeholder="Price"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                  required
+                  min="0"
+                  step="0.01"
+                />
+              </div>
+              <div className="p-5">
+                <select
+                  name="stock"
+                  value={formData.stock ? 'true' : 'false'}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                >
+                  <option value="true">In Stock</option>
+                  <option value="false">Out of Stock</option>
+                </select>
+              </div>
+              <div className="p-5">
+                <select
+                  name="stars"
+                  value={formData.stars}
+                  onChange={handleChange}
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                >
+                  {[0, 1, 2, 3, 4, 5].map((num) => (
+                    <option key={num} value={num}>
+                      {num} Stars
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="p-5">
+                <input
+                  type="url"
+                  name="image_url"
+                  value={formData.image_url}
+                  onChange={handleChange}
+                  placeholder="Image URL"
+                  className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-focusForm"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex justify-end gap-4 mt-6">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200"
-              >
-                Cancelar
-              </button>
+            <div className="flex justify-end gap-2 mt-6">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-button text-white rounded hover:bg-button-dark disabled:opacity-50"
+                className="px-4 py-2 bg-button text-white rounded hover:bg-purple-600 disabled:opacity-50 w-full md:w-[233px]"
               >
-                {isSubmitting ? 'Guardando...' : submitLabel}
+                {isSubmitting ? 'Submitting...' : submitLabel}
               </button>
             </div>
           </form>

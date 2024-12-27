@@ -9,6 +9,7 @@ import { FilterOptions } from '../components/header/FilterBar';
 function Home() {
   const [foods, setFoods] = useState<Food[]>([]);
   const [filteredFoods, setFilteredFoods] = useState<Food[]>([]);
+  const [foodCount, setFoodCount] = useState<number>(0);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food | null>(null);
@@ -16,6 +17,10 @@ function Home() {
   useEffect(() => {
     fetchFoods();
   }, []);
+
+  useEffect(() => {
+    setFoodCount(filteredFoods.length);
+  }, [filteredFoods]);
 
   const fetchFoods = async () => {
     setLoading(true);
@@ -56,11 +61,6 @@ function Home() {
   const onSubmitCreateFood = async (food: FoodFormData) => {
     try {
       const newFood = await foodService.create(food);
-
-      // // Convierte el ID a un número y actualiza el objeto newFood
-      // newFood.id = Number(newFood.id);
-
-      // Ahora puedes agregarlo a los estados sin problemas
       setFoods((prevFoods) => [...prevFoods, newFood]);
       setFilteredFoods((prevFiltered) => [...prevFiltered, newFood]);
       setShowCreateForm(false);
@@ -77,7 +77,7 @@ function Home() {
       console.log('UpdatedFood', updatedFood);
       console.log(updatedFood.id);
       if (id === undefined) {
-        throw new Error('ID is undefined real');
+        throw new Error('ID is undefined');
       }
       const updated = await foodService.update(updatedFood.id, updatedFood);
       setFoods((prevFoods) =>
@@ -116,7 +116,10 @@ function Home() {
 
   return (
     <div>
-      <h1 className="text-5xl font-bold p-4">Home Page</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold p-4">Home Page</h1>
+        <p className="text-xl font-bold">Total Results: {foodCount}</p>
+      </div>
       <FilterBar
         onFilterChange={handleFilterChange}
         showCreateFoodModal={() => showCreateFoodModal()}
@@ -139,7 +142,7 @@ function Home() {
                 selectedFood ? mapToFoodFormData(selectedFood) : undefined
               }
               onSubmit={selectedFood ? onUpdate : onSubmitCreateFood}
-              submitLabel={selectedFood ? 'Actualizar Comida' : 'Crear Comida'}
+              submitLabel={'Create'}
               onClose={() => setShowCreateForm(false)}
             />
           )}

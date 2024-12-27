@@ -28,19 +28,19 @@ export function ConfirmationModal({
             <FaTimesCircle className="h-5 w-5" />
           </button>
         </div>
-        <p className="text-blue-950 font-bold text-xl mb-4 text-center">
+        <p className="text-blue-950 font-bold text-[1.3rem] mb-4 text-center px-14">
           Are you sure you want to delete this item?
         </p>
-        <div className="flex flex-col justify-center space-y-4 items-center">
+        <div className="flex flex-col justify-center items-center gap-4 md:flex-row ">
           <button
             onClick={onConfirm}
-            className="px-6 py-3 text-xl bg-red-400 text-white font-semibold rounded hover:bg-red-500 border-2 border-red-400"
+            className="px-6 py-1 text-xl bg-red-400 text-white font-semibold rounded-[8px] hover:bg-red-500 border-2 border-red-400"
           >
             DELETE
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-3 text-xl bg-gray-200  text-button font-semibold rounded hover:bg-gray-300 border-2 border-button "
+            className="px-6 py-1 text-xl bg-gray-200  text-button font-semibold rounded-[8px] hover:bg-gray-300 border-2 border-button "
           >
             CANCEL
           </button>
