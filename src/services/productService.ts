@@ -2,7 +2,7 @@ import { Food } from '../models/Product';
 import { FoodFormData } from '../models/Product';
 
 export const foodService = {
-  BASE_URL: 'https:/6766efb8560fbd14f18c8f94.mockapi.io',
+  BASE_URL: import.meta.env.VITE_BASE_URL,
 
   async getAll(): Promise<Food[]> {
     try {
