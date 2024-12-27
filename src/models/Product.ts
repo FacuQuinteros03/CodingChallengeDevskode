@@ -48,3 +48,15 @@ export interface FilterBarProps {
   onAddFood: (food: Food) => void;
   setFoods: React.Dispatch<React.SetStateAction<Food[]>>;
 }
+
+export interface FilterOptions {
+  name: string;
+  minPrice: number | null;
+  maxPrice: number | null;
+  stars: StarTypes | null;
+}
+
+export interface FilterBarProps {
+  onFilterChange: (filters: FilterOptions) => void;
+  showCreateFoodModal: () => void;
+}

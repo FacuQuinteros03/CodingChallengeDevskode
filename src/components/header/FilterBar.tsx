@@ -1,22 +1,9 @@
 'use client';
-
 import React, { useState } from 'react';
-import { StarTypes } from '../../models/Product';
 import { FaFilter, FaPlus } from 'react-icons/fa';
 import { FilterContent } from './FilterContent';
 import FilterModal from './FilterModal';
-
-interface FilterBarProps {
-  onFilterChange: (filters: FilterOptions) => void;
-  showCreateFoodModal: () => void;
-}
-
-export interface FilterOptions {
-  name: string;
-  minPrice: number | null;
-  maxPrice: number | null;
-  stars: StarTypes | null;
-}
+import { FilterOptions, FilterBarProps } from './../../models/Product';
 
 export default function FilterBar({
   onFilterChange,
@@ -31,22 +18,20 @@ export default function FilterBar({
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleFilterChange = (
-    key: keyof FilterOptions,
-    value: string | number | null
-  ) => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
-    onFilterChange(newFilters);
+  const handleApplyFilters = (newFilters: FilterOptions) => {
+    setFilters(newFilters); // Actualiza los filtros globalmente
+    onFilterChange(newFilters); // Propaga los filtros actualizados
   };
 
   return (
     <>
-      {/* Desktop View - Unchanged */}
+      {/* Desktop View */}
       <div className="hidden md:flex justify-center gap-8 mb-8 w-full">
         <FilterContent
           filters={filters}
-          handleFilterChange={handleFilterChange}
+          handleFilterChange={(key, value) =>
+            handleApplyFilters({ ...filters, [key]: value })
+          }
         />
         <button
           onClick={showCreateFoodModal}
@@ -83,7 +68,7 @@ export default function FilterBar({
       {isModalOpen && (
         <FilterModal
           filters={filters}
-          handleFilterChange={handleFilterChange}
+          handleApplyFilters={handleApplyFilters} // Pasa la función de aplicar filtros
           setIsModalOpen={setIsModalOpen}
         />
       )}

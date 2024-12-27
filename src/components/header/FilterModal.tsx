@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-React;
 export default function FilterModal({
   filters,
-  handleFilterChange,
+  handleApplyFilters, // Nueva función para aplicar los filtros
   setIsModalOpen,
 }) {
+  const [localFilters, setLocalFilters] = useState(filters);
+
+  const handleLocalFilterChange = (key, value) => {
+    setLocalFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    handleApplyFilters(localFilters); // Aplica los filtros globalmente
+    setIsModalOpen(false); // Cierra el modal
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 md:hidden">
       <div className="bg-white rounded-lg  max-w-md p-6 relative w-[358px]">
@@ -20,9 +33,9 @@ export default function FilterModal({
           <select
             className="bg-gray-200 text-gray-600 font-semibold border rounded px-2 py-2 w-full"
             onChange={(e) =>
-              handleFilterChange('stars', e.target.value || null)
+              handleLocalFilterChange('stars', e.target.value || null)
             }
-            value={filters.stars || ''}
+            value={localFilters.stars || ''}
           >
             <option value="">Select Category</option>
             <option value="1">1 Star</option>
@@ -38,12 +51,12 @@ export default function FilterModal({
               placeholder="Min"
               className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-full"
               onChange={(e) =>
-                handleFilterChange(
+                handleLocalFilterChange(
                   'minPrice',
                   e.target.value ? Number(e.target.value) : null
                 )
               }
-              value={filters.minPrice || ''}
+              value={localFilters.minPrice || ''}
             />
             <span>-</span>
             <input
@@ -51,12 +64,12 @@ export default function FilterModal({
               placeholder="Max"
               className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 w-full"
               onChange={(e) =>
-                handleFilterChange(
+                handleLocalFilterChange(
                   'maxPrice',
                   e.target.value ? Number(e.target.value) : null
                 )
               }
-              value={filters.maxPrice || ''}
+              value={localFilters.maxPrice || ''}
             />
           </div>
 
@@ -64,14 +77,14 @@ export default function FilterModal({
             <input
               type="search"
               placeholder="Search"
-              value={filters.name}
-              onChange={(e) => handleFilterChange('name', e.target.value)}
+              value={localFilters.name || ''}
+              onChange={(e) => handleLocalFilterChange('name', e.target.value)}
               className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 pl-10 w-full"
             />
           </div>
         </div>
         <button
-          onClick={() => setIsModalOpen(false)}
+          onClick={handleSubmit}
           className="mt-6 w-full bg-button hover:bg-violet-600 text-white rounded py-2"
         >
           Filter Products
