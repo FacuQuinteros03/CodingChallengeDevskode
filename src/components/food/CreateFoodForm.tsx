@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useScrollLock } from './../../hooks/useScrollLock'; // Importa el hook
+import { useScrollLock } from './../../hooks/useScrollLock';
 import { FoodFormData, StarTypes } from '../../models/Product';
 import { FoodFormProps } from '../../models/Product';
 
@@ -35,7 +35,7 @@ export default function CreateFoodForm({
       newErrors.image_url = 'A valid Image URL is required';
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Devuelve true si no hay errores
+    return Object.keys(newErrors).length === 0;
   };
 
   const isValidUrl = (string: string) => {
@@ -76,7 +76,7 @@ export default function CreateFoodForm({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg w-full max-w-[1000px]">
+      <div className="bg-white rounded-lg w-full max-w-[1000px] overflow-y-auto max-h-[90vh]">
         <div className="flex justify-between items-center p-4 border-b">
           <h2 className="text-2xl font-semibold text-button p-4">
             Create Product
