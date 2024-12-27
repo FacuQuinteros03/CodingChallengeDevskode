@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useScrollLock } from './../../hooks/useScrollLock';
 
 export default function FilterModal({
   filters,
-  handleApplyFilters, // Nueva función para aplicar los filtros
+  handleApplyFilters,
   setIsModalOpen,
 }) {
   const [localFilters, setLocalFilters] = useState(filters);
+
+  useScrollLock(true);
 
   const handleLocalFilterChange = (key, value) => {
     setLocalFilters((prev) => ({
@@ -15,13 +18,13 @@ export default function FilterModal({
   };
 
   const handleSubmit = () => {
-    handleApplyFilters(localFilters); // Aplica los filtros globalmente
-    setIsModalOpen(false); // Cierra el modal
+    handleApplyFilters(localFilters);
+    setIsModalOpen(false);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 md:hidden">
-      <div className="bg-white rounded-lg  max-w-md p-6 relative w-[358px]">
+      <div className="bg-white rounded-lg max-w-md p-6 relative w-[358px]">
         <button
           onClick={() => setIsModalOpen(false)}
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"

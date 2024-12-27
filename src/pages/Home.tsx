@@ -4,7 +4,8 @@ import { foodService } from '../services/productService';
 import { Food, FoodFormData } from '../models/Product';
 import CreateFoodForm from '../components/food/CreateFoodForm';
 import FilterBar from '../components/header/FilterBar';
-import { FilterOptions } from '../components/header/FilterBar';
+import { FilterOptions } from '../models/Product';
+import LoadingBurger from '../components/food/LoadingBurguer';
 
 function Home() {
   const [foods, setFoods] = useState<Food[]>([]);
@@ -36,7 +37,6 @@ function Home() {
   };
 
   const handleFilterChange = (filters: FilterOptions) => {
-    console.log('Applying Filters:', filters);
     const filtered = foods.filter((food) => {
       const nameMatch = food.name
         .toLowerCase()
@@ -64,18 +64,14 @@ function Home() {
       setFoods((prevFoods) => [...prevFoods, newFood]);
       setFilteredFoods((prevFiltered) => [...prevFiltered, newFood]);
       setShowCreateForm(false);
-
-      console.log('Creada la comida con id', newFood.id);
     } catch (error) {
-      console.error('Error al crear el alimento:', error);
+      console.error('Error creating the product:', error);
     }
   };
 
   const onUpdate = async (updatedFood: FoodFormData) => {
     try {
       const id = updatedFood.id;
-      console.log('UpdatedFood', updatedFood);
-      console.log(updatedFood.id);
       if (id === undefined) {
         throw new Error('ID is undefined');
       }
@@ -88,7 +84,7 @@ function Home() {
       );
       setShowCreateForm(false);
     } catch (error) {
-      console.error('Error al editar el producto:', error);
+      console.error('Error updating the product:', error);
     }
   };
 
@@ -110,7 +106,7 @@ function Home() {
         prevFiltered.filter((food) => food.id !== id)
       );
     } catch (error) {
-      console.error('Error eliminando el alimento:', error);
+      console.error('Error deleting the product:', error);
     }
   };
 
@@ -125,7 +121,7 @@ function Home() {
         showCreateFoodModal={() => showCreateFoodModal()}
       />
       {loading ? (
-        <p>CARGANDO...</p>
+        <LoadingBurger />
       ) : (
         <>
           <FoodList
@@ -134,7 +130,7 @@ function Home() {
             onUpdate={onUpdate}
           />
           {filteredFoods.length === 0 && (
-            <p className="text-gray-500 mt-4">No se encontraron resultados.</p>
+            <p className="text-gray-500 mt-4 text-center">No results</p>
           )}
           {showCreateForm && (
             <CreateFoodForm

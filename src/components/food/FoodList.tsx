@@ -1,11 +1,12 @@
 import React from 'react';
 import FoodCard from './FoodCard';
+import NoResultsFound from './NoResultsFound';
 
 const FoodList = ({ foods, onDelete, onUpdate }) => {
   return (
     <div>
       {foods.length === 0 ? (
-        <p>No hay alimentos disponibles.</p>
+        <NoResultsFound />
       ) : (
         <ul>
           {foods.map((food) => (

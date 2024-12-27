@@ -29,9 +29,6 @@ export const foodService = {
   },
 
   async update(id: number, data: FoodFormData): Promise<Food> {
-    console.log('Data', data);
-    console.log('JSON', JSON.stringify(data));
-
     try {
       const response = await fetch(`${this.BASE_URL}/product/${id}`, {
         method: 'PUT',
@@ -39,16 +36,12 @@ export const foodService = {
         body: JSON.stringify(data),
       });
       if (!response.ok) {
-        // Obtener detalles adicionales del error
         const errorDetails = await response.text();
         throw new Error(`Error al actualizar el producto: ${errorDetails}`);
       }
 
-      console.log('response:', response);
-
       return await response.json();
     } catch (error: any) {
-      // Si el error es un objeto, usar su mensaje o el mensaje por defecto
       const errorMessage =
         error instanceof Error ? error.message : 'Error desconocido';
       throw new Error(`Error al actualizar el producto: ${errorMessage}`);

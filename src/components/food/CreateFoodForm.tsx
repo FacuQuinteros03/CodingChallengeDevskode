@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useScrollLock } from './../../hooks/useScrollLock'; // Importa el hook
 import { FoodFormData, StarTypes } from '../../models/Product';
 import { FoodFormProps } from '../../models/Product';
 
@@ -19,6 +20,8 @@ export default function CreateFoodForm({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useScrollLock(true);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -59,7 +62,7 @@ export default function CreateFoodForm({
     e.preventDefault();
 
     if (!validateForm()) {
-      return; // Detén el envío si hay errores
+      return;
     }
     setIsSubmitting(true);
     try {

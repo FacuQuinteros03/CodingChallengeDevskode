@@ -19,13 +19,12 @@ export default function FilterBar({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleApplyFilters = (newFilters: FilterOptions) => {
-    setFilters(newFilters); // Actualiza los filtros globalmente
-    onFilterChange(newFilters); // Propaga los filtros actualizados
+    setFilters(newFilters);
+    onFilterChange(newFilters);
   };
 
   return (
     <>
-      {/* Desktop View */}
       <div className="hidden md:flex justify-center gap-8 mb-8 w-full">
         <FilterContent
           filters={filters}
@@ -41,7 +40,6 @@ export default function FilterBar({
         </button>
       </div>
 
-      {/* Mobile View */}
       <div className="md:flex,flex-col,w-full">
         <div className="md:hidden flex gap-2 w-full px-4 mb-4">
           <button
@@ -64,11 +62,10 @@ export default function FilterBar({
         </div>
       </div>
 
-      {/* Mobile Filter Modal */}
       {isModalOpen && (
         <FilterModal
           filters={filters}
-          handleApplyFilters={handleApplyFilters} // Pasa la función de aplicar filtros
+          handleApplyFilters={handleApplyFilters}
           setIsModalOpen={setIsModalOpen}
         />
       )}

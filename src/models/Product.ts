@@ -6,7 +6,6 @@ export enum StarTypes {
   'Five' = '5',
 }
 
-// Adaptar la interfaz Food al modelo product
 export interface Food {
   id: number;
   name: string;
@@ -17,7 +16,6 @@ export interface Food {
   stars: StarTypes;
 }
 
-// Datos para el formulario (crear y editar comida)
 export type FoodFormData = {
   id: number;
   name: string;
@@ -28,7 +26,6 @@ export type FoodFormData = {
   image_url: string;
 };
 
-// Propiedades para el componente de formulario de comida
 export interface FoodFormProps {
   onSubmit: (data: FoodFormData) => Promise<void>;
   onUpdate?: (foodId: number, updatedFood: FoodFormData) => Promise<void>;
@@ -37,16 +34,9 @@ export interface FoodFormProps {
   onClose?: () => void;
 }
 
-// Propiedades para la lista de comida
 export interface FoodListProps {
   foods: Food[];
   setFoods: (newFoods: Food[]) => void;
-}
-
-// Propiedades para el componente de barra de filtros
-export interface FilterBarProps {
-  onAddFood: (food: Food) => void;
-  setFoods: React.Dispatch<React.SetStateAction<Food[]>>;
 }
 
 export interface FilterOptions {
@@ -59,4 +49,10 @@ export interface FilterOptions {
 export interface FilterBarProps {
   onFilterChange: (filters: FilterOptions) => void;
   showCreateFoodModal: () => void;
+}
+
+export interface ConfirmationModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
 }

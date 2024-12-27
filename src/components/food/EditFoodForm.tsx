@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useScrollLock } from './../../hooks/useScrollLock'; // Importar el hook
 import { FoodFormData, StarTypes } from '../../models/Product';
 import { FoodFormProps } from '../../models/Product';
 import { foodService } from '../../services/productService';
@@ -29,6 +30,8 @@ export default function EditFoodForm({
     }
   }, [initialData]);
 
+  useScrollLock(true);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -42,7 +45,6 @@ export default function EditFoodForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Datos enviados:', formData);
     setIsSubmitting(true);
     try {
       const updatedFood = await foodService.update(formData.id, formData);

@@ -1,9 +1,9 @@
 import React from 'react';
+import { FaSearch } from 'react-icons/fa';
 
 export const FilterContent = ({ filters, handleFilterChange }) => {
   return (
     <>
-      {/* Categoria */}
       <select
         className="bg-gray-200 text-gray-600 font-semibold border rounded px-2 py-2 w-48"
         onChange={(e) => handleFilterChange('stars', e.target.value || null)}
@@ -16,7 +16,7 @@ export const FilterContent = ({ filters, handleFilterChange }) => {
         <option value="4">4 Stars</option>
         <option value="5">5 Stars</option>
       </select>
-      {/* MIN - MAX */}
+
       <div className="flex items-center gap-2">
         <input
           type="number"
@@ -44,15 +44,18 @@ export const FilterContent = ({ filters, handleFilterChange }) => {
           value={filters.maxPrice || ''}
         />
       </div>
-      {/* BUSCADOR */}
+
       <div className="flex items-center justify-center mx-2 w-64">
-        <input
-          type="search"
-          placeholder="Search"
-          value={filters.name}
-          onChange={(e) => handleFilterChange('name', e.target.value)}
-          className="bg-gray-200 text-gray-600 font-semibold border rounded px-3 py-2 pl-10 w-full"
-        />
+        <div className="flex items-center w-full bg-gray-200 border rounded px-3 py-2">
+          <input
+            type="search"
+            placeholder="Search"
+            value={filters.name}
+            onChange={(e) => handleFilterChange('name', e.target.value)}
+            className="flex-grow bg-transparent text-gray-600 font-semibold border-none outline-none"
+          />
+          <FaSearch className="text-gray-400" />
+        </div>
       </div>
     </>
   );

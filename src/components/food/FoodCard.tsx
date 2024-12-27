@@ -18,9 +18,9 @@ export default function FoodCard({ food, onDelete, onUpdate }) {
   const handleSave = async (updatedFood: FoodFormData) => {
     try {
       const response = await foodService.update(updatedFood.id, updatedFood);
-      setCurrentFood(response); // Actualiza el estado local con los datos actualizados
+      setCurrentFood(response);
       setIsEditing(false);
-      onUpdate(response); // Notifica al componente padre sobre la actualización
+      onUpdate(response);
     } catch (error) {
       console.error('Error al guardar los cambios:', error);
     }
